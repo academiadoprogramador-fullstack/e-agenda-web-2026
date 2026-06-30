@@ -1,10 +1,11 @@
 using FluentResults;
 using eAgenda.WebApp.Modulos.ModuloContato.Dominio;
 using eAgenda.WebApp.Modulos.ModuloCompromisso.Dominio;
+using eAgenda.WebApp.Compartilhado.Aplicacao;
 
 namespace eAgenda.WebApp.Modulos.ModuloContato.Aplicacao;
 
-public class ServicoContato
+public class ServicoContato : ServicoBase<Contato>
 {
     private readonly IRepositorioContato repositorioContato;
     private readonly IRepositorioCompromisso repositorioCompromisso;
@@ -21,10 +22,10 @@ public class ServicoContato
     public Result Cadastrar(CadastrarContatoDto dto)
     {
         if (ExisteContatoComMesmoEmail(dto.Email))
-            return Falha(nameof(dto.Email), "Ja existe um contato com este email.");
+            return Falha(nameof(dto.Email), "Já existe um contato com este email.");
 
         if (ExisteContatoComMesmoTelefone(dto.Telefone))
-            return Falha(nameof(dto.Telefone), "Ja existe um contato com este telefone.");
+            return Falha(nameof(dto.Telefone), "Já existe um contato com este telefone.");
 
         Contato novoContato = new Contato(
             dto.Nome,
@@ -47,10 +48,10 @@ public class ServicoContato
     public Result Editar(EditarContatoDto dto)
     {
         if (ExisteContatoComMesmoEmail(dto.Email, dto.Id))
-            return Falha(nameof(dto.Email), "Ja existe um contato com este email.");
+            return Falha(nameof(dto.Email), "Já existe um contato com este email.");
 
         if (ExisteContatoComMesmoTelefone(dto.Telefone, dto.Id))
-            return Falha(nameof(dto.Telefone), "Ja existe um contato com este telefone.");
+            return Falha(nameof(dto.Telefone), "Já existe um contato com este telefone.");
 
         Contato contatoAtualizado = new Contato(
             dto.Nome,
@@ -68,7 +69,7 @@ public class ServicoContato
         bool conseguiuEditar = repositorioContato.Editar(dto.Id, contatoAtualizado);
 
         if (!conseguiuEditar)
-            return Falha(string.Empty, "Contato nao encontrado.");
+            return Falha(string.Empty, "Contato não encontrado.");
 
         return Result.Ok();
     }
@@ -78,7 +79,7 @@ public class ServicoContato
         Contato? contato = repositorioContato.SelecionarPorId(id);
 
         if (contato == null)
-            return Falha(string.Empty, "Contato nao encontrado.");
+            return Falha(string.Empty, "Contato não encontrado.");
 
         if (PossuiCompromissosVinculados(id))
             return Falha(string.Empty, "Não é possível excluir este contato, pois ele possui compromissos vinculados.");
@@ -101,7 +102,7 @@ public class ServicoContato
         Contato? contato = repositorioContato.SelecionarPorId(id);
 
         if (contato == null)
-            return Result.Fail("Contato nao encontrado.");
+            return Result.Fail("Contato não encontrado.");
 
         return Result.Ok(new DetalhesContatoDto(
             contato.Id,
@@ -152,20 +153,5 @@ public class ServicoContato
     private static string NormalizarTelefone(string telefone)
     {
         return new string(telefone.Where(char.IsDigit).ToArray());
-    }
-
-    private static Result ValidarEntidade(Contato contato)
-    {
-        List<string> erros = contato.Validar();
-
-        if (erros.Count == 0)
-            return Result.Ok();
-
-        return Falha(string.Empty, erros.First());
-    }
-
-    private static Result Falha(string campo, string mensagem)
-    {
-        return Result.Fail(new Error(mensagem).WithMetadata("Campo", campo));
     }
 }

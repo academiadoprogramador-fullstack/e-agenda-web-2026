@@ -1,10 +1,11 @@
 using FluentResults;
 using eAgenda.WebApp.Modulos.ModuloCompromisso.Dominio;
 using eAgenda.WebApp.Modulos.ModuloContato.Dominio;
+using eAgenda.WebApp.Compartilhado.Aplicacao;
 
 namespace eAgenda.WebApp.Modulos.ModuloCompromisso.Aplicacao;
 
-public class ServicoCompromisso
+public class ServicoCompromisso : ServicoBase<Compromisso>
 {
     private readonly IRepositorioCompromisso repositorioCompromisso;
     private readonly IRepositorioContato repositorioContato;
@@ -166,20 +167,5 @@ public class ServicoCompromisso
                 compromisso.HoraInicio < c.HoraTermino &&
                 compromisso.HoraTermino > c.HoraInicio
             );
-    }
-
-    private static Result ValidarEntidade(Compromisso compromisso)
-    {
-        List<string> erros = compromisso.Validar();
-
-        if (erros.Count == 0)
-            return Result.Ok();
-
-        return Falha(string.Empty, erros.First());
-    }
-
-    private static Result Falha(string campo, string mensagem)
-    {
-        return Result.Fail(new Error(mensagem).WithMetadata("Campo", campo));
     }
 }
