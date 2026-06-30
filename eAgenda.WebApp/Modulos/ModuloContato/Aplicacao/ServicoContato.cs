@@ -1,17 +1,21 @@
 using FluentResults;
 using eAgenda.WebApp.Modulos.ModuloContato.Dominio;
+using eAgenda.WebApp.Modulos.ModuloCompromisso.Dominio;
 
 namespace eAgenda.WebApp.Modulos.ModuloContato.Aplicacao;
 
 public class ServicoContato
 {
     private readonly IRepositorioContato repositorioContato;
+    private readonly IRepositorioCompromisso repositorioCompromisso;
 
     public ServicoContato(
-        IRepositorioContato repositorioContato
+        IRepositorioContato repositorioContato,
+        IRepositorioCompromisso repositorioCompromisso
     )
     {
         this.repositorioContato = repositorioContato;
+        this.repositorioCompromisso = repositorioCompromisso;
     }
 
     public Result Cadastrar(CadastrarContatoDto dto)
@@ -76,6 +80,9 @@ public class ServicoContato
         if (contato == null)
             return Falha(string.Empty, "Contato nao encontrado.");
 
+        if (PossuiCompromissosVinculados(id))
+            return Falha(string.Empty, "Não é possível excluir este contato, pois ele possui compromissos vinculados.");
+
         repositorioContato.Excluir(id);
 
         return Result.Ok();
@@ -128,6 +135,13 @@ public class ServicoContato
                 c.Id != idIgnorado &&
                 NormalizarTelefone(c.Telefone) == telefoneNormalizado
             );
+    }
+
+    private bool PossuiCompromissosVinculados(Guid contatoId)
+    {
+        return repositorioCompromisso
+            .SelecionarTodos()
+            .Any(c => c.Contato?.Id == contatoId);
     }
 
     private static string NormalizarEmail(string email)
