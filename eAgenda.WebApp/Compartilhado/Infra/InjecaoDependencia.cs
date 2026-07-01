@@ -7,6 +7,8 @@ using eAgenda.WebApp.Modulos.ModuloContato.Dominio;
 using eAgenda.WebApp.Modulos.ModuloContato.Infra;
 using eAgenda.WebApp.Modulos.ModuloDespesa.Dominio;
 using eAgenda.WebApp.Modulos.ModuloDespesa.Infra;
+using eAgenda.WebApp.Modulos.ModuloTarefa.Dominio;
+using eAgenda.WebApp.Modulos.ModuloTarefa.Infra;
 
 namespace eAgenda.WebApp.Compartilhado.Infra;
 
@@ -20,5 +22,6 @@ public static class InjecaoDependencia
         services.AddScoped<IRepositorioCompromisso, RepositorioCompromissoEmSql>();
         services.AddScoped<IRepositorioCategoria, RepositorioCategoriaEmSql>();
         services.AddScoped<IRepositorioDespesa, RepositorioDespesaEmSql>();
+        services.AddScoped<IRepositorioTarefa, RepositorioTarefaEmSql>();
     }
 }
