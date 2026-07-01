@@ -1,4 +1,6 @@
 using eAgenda.WebApp.Compartilhado.Infra.Sql;
+using eAgenda.WebApp.Modulos.ModuloCategoria.Dominio;
+using eAgenda.WebApp.Modulos.ModuloCategoria.Infra;
 using eAgenda.WebApp.Modulos.ModuloCompromisso.Dominio;
 using eAgenda.WebApp.Modulos.ModuloCompromisso.Infra;
 using eAgenda.WebApp.Modulos.ModuloContato.Dominio;
@@ -14,5 +16,6 @@ public static class InjecaoDependencia
 
         services.AddScoped<IRepositorioContato, RepositorioContatoEmSql>();
         services.AddScoped<IRepositorioCompromisso, RepositorioCompromissoEmSql>();
+        services.AddScoped<IRepositorioCategoria, RepositorioCategoriaEmSql>();
     }
 }

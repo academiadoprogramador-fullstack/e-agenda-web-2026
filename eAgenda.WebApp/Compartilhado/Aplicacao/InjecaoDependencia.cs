@@ -1,4 +1,5 @@
 using eAgenda.WebApp.Compartilhado.Aplicacao.Logging;
+using eAgenda.WebApp.Modulos.ModuloCategoria.Aplicacao;
 using eAgenda.WebApp.Modulos.ModuloCompromisso.Aplicacao;
 using eAgenda.WebApp.Modulos.ModuloContato.Aplicacao;
 
@@ -16,5 +17,6 @@ public static class InjecaoDependencia
 
         services.AddScoped<ServicoContato>();
         services.AddScoped<ServicoCompromisso>();
+        services.AddScoped<ServicoCategoria>();
     }
 }
