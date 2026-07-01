@@ -79,7 +79,7 @@ public record EditarCompromissoViewModel(
 
     Guid? ContatoId,
 
-    [property: ValidateNever]
+    [ValidateNever]
     List<OpcaoContatoViewModel> Contatos
 );
 
