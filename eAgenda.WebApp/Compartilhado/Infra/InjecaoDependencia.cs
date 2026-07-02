@@ -1,3 +1,4 @@
+using eAgenda.WebApp.Compartilhado.Infra.Orm;
 using eAgenda.WebApp.Compartilhado.Infra.Sql;
 using eAgenda.WebApp.Modulos.ModuloCategoria.Dominio;
 using eAgenda.WebApp.Modulos.ModuloCategoria.Infra;
@@ -9,19 +10,34 @@ using eAgenda.WebApp.Modulos.ModuloDespesa.Dominio;
 using eAgenda.WebApp.Modulos.ModuloDespesa.Infra;
 using eAgenda.WebApp.Modulos.ModuloTarefa.Dominio;
 using eAgenda.WebApp.Modulos.ModuloTarefa.Infra;
+using Microsoft.EntityFrameworkCore;
 
 namespace eAgenda.WebApp.Compartilhado.Infra;
 
 public static class InjecaoDependencia
 {
-    public static void AddInfraRepositories(this IServiceCollection services)
+    public static void AddInfraRepositories(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<ISqlConnectionFactory, SqlConnectionFactory>();
+        services.AddDbContext<EAgendaDbContext>(options =>
+        {
+            string? connectionString = configuration.GetConnectionString("SqlServer");
 
-        services.AddScoped<IRepositorioContato, RepositorioContatoEmSql>();
-        services.AddScoped<IRepositorioCompromisso, RepositorioCompromissoEmSql>();
-        services.AddScoped<IRepositorioCategoria, RepositorioCategoriaEmSql>();
-        services.AddScoped<IRepositorioDespesa, RepositorioDespesaEmSql>();
-        services.AddScoped<IRepositorioTarefa, RepositorioTarefaEmSql>();
+            if (string.IsNullOrWhiteSpace(connectionString))
+            {
+                throw new InvalidOperationException(
+                    $"A connection string \"SqlServer\" não foi encontrada."
+                );
+            }
+
+            options.UseSqlServer(connectionString);
+        });
+
+        // services.AddScoped<ISqlConnectionFactory, SqlConnectionFactory>();
+
+        // services.AddScoped<IRepositorioContato, RepositorioContatoEmSql>();
+        // services.AddScoped<IRepositorioCompromisso, RepositorioCompromissoEmSql>();
+        // services.AddScoped<IRepositorioCategoria, RepositorioCategoriaEmSql>();
+        // services.AddScoped<IRepositorioDespesa, RepositorioDespesaEmSql>();
+        // services.AddScoped<IRepositorioTarefa, RepositorioTarefaEmSql>();
     }
 }
