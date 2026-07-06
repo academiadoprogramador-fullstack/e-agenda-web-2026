@@ -32,7 +32,7 @@ public sealed class ContatoConfiguration : IEntityTypeConfiguration<Contato>
             .HasMaxLength(100);
 
         builder.Property(c => c.Empresa)
-              .HasMaxLength(100);
+            .HasMaxLength(100);
 
         // Índice de exclusividade
         builder.HasIndex(c => c.Email)

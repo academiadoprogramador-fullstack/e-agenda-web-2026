@@ -12,7 +12,7 @@ using eAgenda.WebApp.Compartilhado.Infra.Orm;
 namespace eAgenda.WebApp.Compartilhado.Infra.Orm.Migrations
 {
     [DbContext(typeof(EAgendaDbContext))]
-    [Migration("20260702173741_Add_TBContato")]
+    [Migration("20260706170102_Add_TBContato")]
     partial class Add_TBContato
     {
         /// <inheritdoc />
