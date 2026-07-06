@@ -19,10 +19,6 @@ public sealed class EAgendaDbContext(DbContextOptions<EAgendaDbContext> options)
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // TODO: Implementar EntityTypeConfiguration restantes
-        modelBuilder.Ignore<ItemTarefa>();
-        modelBuilder.Ignore<Tarefa>();
-
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(EAgendaDbContext).Assembly);
     }
 }
