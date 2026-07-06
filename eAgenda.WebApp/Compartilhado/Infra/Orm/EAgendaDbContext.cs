@@ -20,12 +20,11 @@ public sealed class EAgendaDbContext(DbContextOptions<EAgendaDbContext> options)
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // TODO: Implementar EntityTypeConfiguration restantes
-        modelBuilder.Ignore<Compromisso>();
         modelBuilder.Ignore<Categoria>();
         modelBuilder.Ignore<Despesa>();
         modelBuilder.Ignore<ItemTarefa>();
         modelBuilder.Ignore<Tarefa>();
 
-        modelBuilder.ApplyConfiguration(new ContatoConfiguration());
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(EAgendaDbContext).Assembly);
     }
 }
