@@ -48,6 +48,19 @@ jobs:
         with:
           name: .net-app
 
+      - name: Install Entity Framework CLI
+        run: dotnet tool install --global dotnet-ef
+
+      - name: Apply ORM migrations to Azure SQL
+        env:
+          AZURE_SQL_CONNECTION_STRING: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
+        run: |
+          dotnet ef database update \
+            --project "eAgenda.WebApp/eAgenda.WebApp.csproj" \
+            --startup-project "eAgenda.WebApp/eAgenda.WebApp.csproj" \
+            --context EAgendaDbContext \
+            --connection "$AZURE_SQL_CONNECTION_STRING"
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
