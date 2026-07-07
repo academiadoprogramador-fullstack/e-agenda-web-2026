@@ -1,4 +1,3 @@
-using eAgenda.WebApp.Compartilhado.Infra.Orm.Config;
 using eAgenda.WebApp.Modulos.ModuloCategoria.Dominio;
 using eAgenda.WebApp.Modulos.ModuloCompromisso.Dominio;
 using eAgenda.WebApp.Modulos.ModuloContato.Dominio;

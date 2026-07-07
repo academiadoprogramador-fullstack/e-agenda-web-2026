@@ -1,5 +1,4 @@
 using Serilog;
-using Serilog.Core;
 
 namespace eAgenda.WebApp.Compartilhado.Aplicacao.Logging;
 
