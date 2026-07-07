@@ -35,7 +35,7 @@ public static class SerilogFactory
         if (string.IsNullOrWhiteSpace(newRelicOptions.LicenseKey))
         {
             throw new InvalidOperationException(
-                "A chave de licença do NewRelic não foi configurada. Configure NewRelic:LicenseKey."
+                "A chave de licença do NewRelic não foi configurada. Configure Logging:NewRelic:LicenseKey."
             );
         }
 
