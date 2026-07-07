@@ -56,8 +56,8 @@ jobs:
           AZURE_SQL_CONNECTION_STRING: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
         run: |
           dotnet ef database update \
-            --project "eAgenda.WebApp/eAgenda.WebApp.csproj" \
-            --startup-project "eAgenda.WebApp/eAgenda.WebApp.csproj" \
+            --project eAgenda.WebApp \
+            --startup-project eAgenda.WebApp \
             --context EAgendaDbContext \
             --connection "$AZURE_SQL_CONNECTION_STRING"
 
